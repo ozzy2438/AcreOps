@@ -1,0 +1,46 @@
+[
+  {
+    "permit_number": "BP-2026-18442",
+    "project_name": "East 6th Lofts",
+    "address": "1408 East 6th Street, Austin, TX",
+    "jurisdiction": "City of Austin Development Services",
+    "portal_url": "https://abc.austintexas.gov/web/permit/details?id=BP-2026-18442",
+    "permit_type": "Commercial building — new multifamily",
+    "applicant": "AcreOps Development LLC",
+    "current_status": "under_review",
+    "notes": "Second completeness cycle. Structural comments expected."
+  },
+  {
+    "permit_number": "SP-2026-0771",
+    "project_name": "East 6th Lofts site plan",
+    "address": "1408 East 6th Street, Austin, TX",
+    "jurisdiction": "City of Austin Development Services",
+    "portal_url": "https://abc.austintexas.gov/web/permit/details?id=SP-2026-0771",
+    "permit_type": "Site plan",
+    "applicant": "AcreOps Development LLC",
+    "current_status": "corrections_required",
+    "notes": "Watershed reviewer requested additional detention calc."
+  },
+  {
+    "permit_number": "BLD-26-44190",
+    "project_name": "Morehead Tower",
+    "address": "512 West Morehead Street, Charlotte, NC",
+    "jurisdiction": "Mecklenburg County LUESA",
+    "portal_url": "https://accesscharlotte.mecklenburgcountync.gov/permits/BLD-26-44190",
+    "permit_type": "High-rise building",
+    "applicant": "Piedmont Builders",
+    "current_status": "issued",
+    "notes": "Foundation inspection window opening next week."
+  },
+  {
+    "permit_number": "LOG-2026-3301",
+    "project_name": "Walnut Flats",
+    "address": "2550 Walnut Street, Denver, CO",
+    "jurisdiction": "City and County of Denver Development Services",
+    "portal_url": "https://www.denvergov.org/epermits/LOG-2026-3301",
+    "permit_type": "Log plan / new construction",
+    "applicant": "RiNo Partners",
+    "current_status": "submitted",
+    "notes": "Awaiting completeness. Floodplain review queued."
+  }
+]

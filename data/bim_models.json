@@ -1,0 +1,94 @@
+[
+  {
+    "project_name": "East 6th Lofts",
+    "elements": [
+      {
+        "element_id": "L2-SLAB",
+        "name": "Level 2 podium slab",
+        "discipline": "structure",
+        "planned_pct": 100,
+        "planned_volume_m3": 210,
+        "scheduled_start": "2026-05-01",
+        "scheduled_finish": "2026-06-20",
+        "location": "Podium"
+      },
+      {
+        "element_id": "L3-WALLS",
+        "name": "Level 3 shear walls",
+        "discipline": "structure",
+        "planned_pct": 80,
+        "planned_volume_m3": 96,
+        "scheduled_start": "2026-06-22",
+        "scheduled_finish": "2026-08-08",
+        "location": "Tower west"
+      },
+      {
+        "element_id": "L4-DECK",
+        "name": "Level 4 metal deck",
+        "discipline": "structure",
+        "planned_pct": 45,
+        "planned_volume_m3": 18,
+        "scheduled_start": "2026-07-15",
+        "scheduled_finish": "2026-08-25",
+        "location": "Tower"
+      },
+      {
+        "element_id": "L1-MEP",
+        "name": "Level 1 MEP rough-in",
+        "discipline": "mep",
+        "planned_pct": 35,
+        "planned_volume_m3": null,
+        "scheduled_start": "2026-07-01",
+        "scheduled_finish": "2026-09-10",
+        "location": "Podium garage"
+      },
+      {
+        "element_id": "SITE-PAVE",
+        "name": "Alley paving and utility lids",
+        "discipline": "civil",
+        "planned_pct": 20,
+        "planned_volume_m3": 40,
+        "scheduled_start": "2026-08-01",
+        "scheduled_finish": "2026-09-30",
+        "location": "East alley"
+      }
+    ],
+    "observations": [
+      {
+        "element_id": "L2-SLAB",
+        "observed_pct": 100,
+        "confidence": 0.93,
+        "occlusion": false,
+        "evidence": "Orthomosaic shows continuous slab, no rebar mats, curing compound visible."
+      },
+      {
+        "element_id": "L3-WALLS",
+        "observed_pct": 52,
+        "confidence": 0.81,
+        "occlusion": false,
+        "evidence": "West bay walls formed; east bay still at starter bars. Volume occupancy 52% of BIM envelope."
+      },
+      {
+        "element_id": "L4-DECK",
+        "observed_pct": 18,
+        "confidence": 0.77,
+        "occlusion": false,
+        "evidence": "Deck bundles staged, only two bays fastened. Behind planned 45%."
+      },
+      {
+        "element_id": "L1-MEP",
+        "observed_pct": 30,
+        "confidence": 0.58,
+        "occlusion": true,
+        "evidence": "Garage canopy and parked lifts occlude hangers. Do not treat as measured progress."
+      },
+      {
+        "element_id": "SITE-PAVE",
+        "observed_pct": 38,
+        "confidence": 0.86,
+        "occlusion": false,
+        "evidence": "Alley base course placed farther than the 4D planned envelope — possible early start."
+      }
+    ]
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "vendor_id": "V-PLM-01",
+    "name": "Rio Grande Plumbing",
+    "trade": "plumbing",
+    "phone": "+15125550114",
+    "email": "dispatch@riograndeplumb.example",
+    "zone": "central",
+    "rating": 4.8,
+    "emergency_available": true,
+    "avg_response_min": 38,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-PLM-02",
+    "name": "North Loop Pipe Co",
+    "trade": "plumbing",
+    "phone": "+15125550191",
+    "email": "jobs@northlooppipe.example",
+    "zone": "north",
+    "rating": 4.6,
+    "emergency_available": true,
+    "avg_response_min": 45,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-HVAC-01",
+    "name": "Hill Country Comfort",
+    "trade": "hvac",
+    "phone": "+15125550220",
+    "email": "ops@hcccomfort.example",
+    "zone": "all",
+    "rating": 4.7,
+    "emergency_available": true,
+    "avg_response_min": 52,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-ELC-01",
+    "name": "Amp & Co Electric",
+    "trade": "electrical",
+    "phone": "+15125550303",
+    "email": "duty@ampandco.example",
+    "zone": "central",
+    "rating": 4.9,
+    "emergency_available": true,
+    "avg_response_min": 40,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-APL-01",
+    "name": "Appliance Rescue",
+    "trade": "appliance",
+    "phone": "+15125550444",
+    "email": "hello@appliancerescue.example",
+    "zone": "south",
+    "rating": 4.4,
+    "emergency_available": false,
+    "avg_response_min": 90,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-LCK-01",
+    "name": "Night Owl Locksmith",
+    "trade": "locksmith",
+    "phone": "+15125550555",
+    "email": "now@nightowl.example",
+    "zone": "all",
+    "rating": 4.5,
+    "emergency_available": true,
+    "avg_response_min": 28,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-PST-01",
+    "name": "Capitol Pest",
+    "trade": "pest",
+    "phone": "+15125550666",
+    "email": "route@capitolpest.example",
+    "zone": "north",
+    "rating": 4.3,
+    "emergency_available": false,
+    "avg_response_min": 240,
+    "status": "active"
+  },
+  {
+    "vendor_id": "V-GEN-01",
+    "name": "Oak Street Handy",
+    "trade": "general",
+    "phone": "+15125550777",
+    "email": "crew@oakstreethandy.example",
+    "zone": "south",
+    "rating": 4.2,
+    "emergency_available": false,
+    "avg_response_min": 180,
+    "status": "active"
+  }
+]
