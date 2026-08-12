@@ -39,3 +39,11 @@ def test_feasibility_packet_end_to_end(tmp_path, monkeypatch):
     assert run.result["pdf_path"]
     assert len(run.result["scenarios"]) == 3
     assert run.result["zoning"]["jurisdiction"] == "City of Austin"
+    actions = [event.action for event in run.audit]
+    assert actions == [
+        "compile_zoning",
+        "compile_comps",
+        "compile_demographics",
+        "underwrite",
+        "assemble_packet",
+    ]

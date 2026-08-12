@@ -11,6 +11,7 @@ from acreops.adapters.comms import send_email
 from acreops.adapters.notion import upsert_timeline_event
 from acreops.agents.permits.portal import detect_changes, scrape_portal, watched_permits
 from acreops.config import get_settings
+from acreops.graphutil import AuditTrail
 from acreops.schemas.common import AgentName, AgentRun, AuditEvent
 from acreops.schemas.permits import StatusChange
 
@@ -21,7 +22,7 @@ class PermitState(TypedDict, total=False):
     changes: list[dict[str, Any]]
     notifications: list[dict[str, Any]]
     timeline: list[dict[str, Any]]
-    audit: list[dict[str, Any]]
+    audit: AuditTrail
 
 
 def _audit(action: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:

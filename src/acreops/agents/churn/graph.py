@@ -13,6 +13,7 @@ from acreops.agents.churn.features import FEATURE_COLUMNS, days_to_expiry, featu
 from acreops.agents.churn.offers import TURNOVER_COST, draft_offer, primary_driver, risk_tier
 from acreops.agents.churn.train import load_or_train
 from acreops.config import get_settings
+from acreops.graphutil import AuditTrail
 from acreops.schemas.churn import ChurnPrediction, TenantLease
 from acreops.schemas.common import AgentName, AgentRun, AuditEvent
 
@@ -24,7 +25,7 @@ class ChurnState(TypedDict, total=False):
     predictions: list[dict[str, Any]]
     offers: list[dict[str, Any]]
     emails: list[dict[str, Any]]
-    audit: list[dict[str, Any]]
+    audit: AuditTrail
 
 
 def _audit(action: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
