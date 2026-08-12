@@ -4,12 +4,12 @@
 
 Five production-shaped agents that take work a broker, PM, superintendent, or leasing team still does by hand — and return a signed packet, a dispatched vendor, a Notion timeline row, a validated progress report, or a renewal offer.
 
-Demo mode runs locally with no API keys. Live adapters (PandaDoc, AppFolio, Airtable, Twilio, Selenium, Notion, SMTP) activate when the matching env vars are set.
+The operator desk is a Next.js App Router app. Demo mode runs locally with no API keys. Live adapters (PandaDoc, AppFolio, Airtable, Twilio, Selenium, Notion, SMTP) activate when the matching env vars are set.
 
 ## The five agents
 
 | Agent | Manual today | AcreOps |
-|---|---|---|
+|---|---|
 | **Site feasibility kit** | Broker compiles zoning, comps, demographics | LangGraph research graph → branded PDF + PandaDoc packet ready to sign |
 | **Tenant ticket triage** | Manager reads maintenance mail, assigns a vendor | AppFolio-shaped form → rule classifier → Airtable vendor → SMS to resident and trade |
 | **Permit pulse** | PM refreshes the city portal every morning | Portal poll (Selenium-shaped) diffs status, emails the PM, upserts a Notion timeline |
@@ -50,6 +50,7 @@ flowchart TB
     D --> I --> N
     E --> J --> O
     I -. superintendent interrupt .-> N
+    F & G & H & I & J --> W[Next.js field desk]
 ```
 
 Design rules, borrowed from how this shop already ships agents:
@@ -64,14 +65,14 @@ More in [docs/architecture.md](docs/architecture.md).
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev,ui]"
+pip install -e ".[dev]"
 cp .env.example .env
 
 # API
 make api          # http://127.0.0.1:8000/docs
 
-# Operator workspace
-make ui           # http://127.0.0.1:8501
+# Next.js field desk
+make ui           # http://127.0.0.1:3000
 
 # One-shot CLI
 acreops feasibility --address "1408 East 6th Street" --city Austin --state TX
@@ -90,7 +91,9 @@ docker compose up --build
 | Service | URL |
 |---|---|
 | FastAPI / OpenAPI | http://127.0.0.1:8000/docs |
-| Streamlit workspace | http://127.0.0.1:8501 |
+| Next.js field desk | http://127.0.0.1:3000 |
+
+The browser never talks to FastAPI directly. `web/src/app/api/backend/[...path]/route.ts` is a BFF proxy onto `ACREOPS_API_URL`.
 
 ## Example calls
 
@@ -126,19 +129,10 @@ curl -s localhost:8000/webhooks/appfolio -H 'content-type: application/json' -d 
 
 ```
 acreops/
-├── src/acreops/
-│   ├── agents/
-│   │   ├── feasibility/   # zoning + comps + demographics → PDF + PandaDoc
-│   │   ├── triage/        # classifier + vendor select + SMS
-│   │   ├── permits/       # portal poll + diff + email + Notion
-│   │   ├── drone/         # vision vs BIM + superintendent interrupt
-│   │   └── churn/         # LightGBM + incentive email
-│   ├── adapters/          # PandaDoc, Airtable, Twilio, Notion, PDF, catalogs
-│   ├── schemas/           # pydantic contracts
-│   ├── api/               # FastAPI
-│   └── cli.py
+├── src/acreops/           # LangGraph agents + FastAPI
 ├── data/                  # demo parcels, vendors, permits, tenants, BIM
-├── ui/                    # Streamlit operator workspace
+├── web/                   # Next.js 15 App Router field desk
+│   └── src/app/           # desk, feasibility, triage, permits, drone, churn
 ├── tests/
 ├── evals/
 └── docs/
