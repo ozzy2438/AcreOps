@@ -14,18 +14,20 @@ URGENT_PATTERNS = [
     r"no hot water|no ac|no a/c|air condition",
     r"only (bathroom|toilet).*(not|won't|broken)|toilet.*(overflow|backed)",
     r"fridge|refrigerator.*(warm|not cool)|pest|roaches|bed ?bug|mice",
+    r"dishwasher|not draining|won't drain",
     r"leak(?!y faucet)|leaking",
 ]
 TENANT_PATTERNS = [
     r"light ?bulb|ac filter|air filter|lockout|lost (my )?key|clogged from grease",
 ]
+# Specific trades first so "dishwasher not draining" is appliance, not plumbing.
 TRADE_MAP: list[tuple[str, Trade]] = [
-    (r"plumb|leak|drain|toilet|sewage|pipe|faucet|water heater", Trade.PLUMBING),
-    (r"heat|hvac|ac\b|a/c|furnace|thermostat|air condition", Trade.HVAC),
-    (r"electric|outlet|breaker|spark|wire|power out", Trade.ELECTRICAL),
     (r"fridge|dishwasher|washer|dryer|stove|oven|appliance", Trade.APPLIANCE),
     (r"lock|key|door lock", Trade.LOCKSMITH),
     (r"pest|roach|bug|mice|rat|ant", Trade.PEST),
+    (r"plumb|leak|drain|toilet|sewage|pipe|faucet|water heater", Trade.PLUMBING),
+    (r"heat|hvac|ac\b|a/c|furnace|thermostat|air condition", Trade.HVAC),
+    (r"electric|outlet|breaker|spark|wire|power out", Trade.ELECTRICAL),
 ]
 
 SLA = {

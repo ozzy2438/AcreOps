@@ -16,6 +16,7 @@ from acreops.agents.feasibility.research import (
     score_risk,
     write_summary,
 )
+from acreops.graphutil import AuditTrail
 from acreops.schemas.common import AgentName, AgentRun, AuditEvent
 from acreops.schemas.feasibility import FeasibilityPacket, FeasibilityRequest
 
@@ -31,7 +32,7 @@ class FeasibilityState(TypedDict, total=False):
     executive_summary: str
     pdf_path: str
     pandadoc: dict[str, Any]
-    audit: list[dict[str, Any]]
+    audit: AuditTrail
 
 
 def _audit(action: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -106,10 +107,6 @@ def node_packet(state: FeasibilityState) -> dict[str, Any]:
         "pandadoc": doc,
         "audit": [_audit("assemble_packet", {"pdf": pdf_path, "pandadoc_id": doc["id"]})],
     }
-
-
-def _merge_audit(left: list, right: list) -> list:
-    return (left or []) + (right or [])
 
 
 def build_graph():

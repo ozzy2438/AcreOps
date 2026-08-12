@@ -11,6 +11,7 @@ from acreops.adapters.airtable import upsert_work_order
 from acreops.adapters.comms import send_sms
 from acreops.agents.triage.classifier import classify_ticket
 from acreops.agents.triage.dispatch import select_vendor
+from acreops.graphutil import AuditTrail
 from acreops.schemas.common import AgentName, AgentRun, AuditEvent
 from acreops.schemas.triage import TicketClassification, TicketIntake, Vendor, WorkOrder
 
@@ -22,7 +23,7 @@ class TriageState(TypedDict, total=False):
     work_order: dict[str, Any]
     tenant_sms: dict[str, Any] | None
     vendor_sms: dict[str, Any] | None
-    audit: list[dict[str, Any]]
+    audit: AuditTrail
 
 
 def _audit(action: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
