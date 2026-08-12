@@ -17,3 +17,6 @@ build/
 *.joblib
 *.lgb
 .streamlit/secrets.toml
+node_modules/
+web/.next/
+web/out/

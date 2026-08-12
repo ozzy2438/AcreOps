@@ -16,7 +16,7 @@ This repo is a multi-agent real-estate / construction platform. Keep these rules
 2. LangGraph `StateGraph` with `AuditTrail` reducer on `audit`.
 3. Catalog or adapter seam in `src/acreops/adapters/`.
 4. FastAPI route on `/agents/<name>`.
-5. Streamlit tab in `ui/app.py`.
+5. Next.js page under `web/src/app/<name>/` plus a card on the desk.
 6. Pytest + an eval case in `evals/run_evals.py`.
 
 ## Commands

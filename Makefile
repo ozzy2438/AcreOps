@@ -4,7 +4,7 @@ api:
 	uvicorn acreops.api.main:app --reload --port 8000
 
 ui:
-	ACREOPS_API_URL=http://127.0.0.1:8000 streamlit run ui/app.py --server.port 8501
+	cd web && npm install && ACREOPS_API_URL=http://127.0.0.1:8000 npm run dev
 
 test:
 	pytest --cov=acreops --cov-branch --cov-report=term-missing
