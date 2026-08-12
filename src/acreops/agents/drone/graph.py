@@ -15,6 +15,7 @@ from acreops.agents.drone.vision import (
     load_bim,
     schedule_delta_days,
 )
+from acreops.graphutil import AuditTrail
 from acreops.schemas.common import AgentName, AgentRun, AuditEvent
 from acreops.schemas.drone import DroneReport, ProgressEstimate
 
@@ -33,7 +34,7 @@ class DroneState(TypedDict, total=False):
     schedule_updated: bool
     pdf_path: str | None
     report_id: str
-    audit: list[dict[str, Any]]
+    audit: AuditTrail
     skip_interrupt: bool
 
 
