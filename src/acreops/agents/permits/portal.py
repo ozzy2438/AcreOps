@@ -18,7 +18,7 @@ def watched_permits() -> list[PermitRecord]:
 
 def scrape_portal(record: PermitRecord, *, force_change: bool = False) -> PermitSnapshot:
     """Demo Selenium stand-in. Live mode would drive the city Accela/EnerGov portal."""
-    status = record.current_status
+    status = _LAST_SEEN.get(record.permit_number, record.current_status)
     if force_change:
         nxt = {
             PermitStatus.SUBMITTED: PermitStatus.UNDER_REVIEW,
