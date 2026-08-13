@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PageIntro, Panel, Stat } from "@/components/ui";
+import { PageIntro, Panel, SafetyNote, Stat } from "@/components/ui";
+import { ResetDemoButton } from "@/components/reset-demo";
 import { AGENTS } from "@/lib/agents";
 import { DEMO_PARCELS, DEMO_PERMITS, DEMO_TENANTS, DEMO_VENDORS } from "@/lib/demo";
 
@@ -8,8 +9,7 @@ const API = process.env.ACREOPS_API_URL;
 async function loadDesk() {
   if (!API) {
     return {
-      ok: true as const,
-      health: { version: "preview", mode: "interactive_demo" },
+      health: { version: "demo", mode: "interactive_demo" },
       parcels: DEMO_PARCELS,
       vendors: DEMO_VENDORS,
       permits: DEMO_PERMITS,
@@ -24,11 +24,10 @@ async function loadDesk() {
       fetch(`${API}/catalog/permits`, { cache: "no-store" }).then((r) => r.json()),
       fetch(`${API}/catalog/tenants`, { cache: "no-store" }).then((r) => r.json()),
     ]);
-    return { ok: true as const, health, parcels, vendors, permits, tenants };
+    return { health, parcels, vendors, permits, tenants };
   } catch {
     return {
-      ok: true as const,
-      health: { version: "preview", mode: "interactive_demo" },
+      health: { version: "demo", mode: "interactive_demo" },
       parcels: DEMO_PARCELS,
       vendors: DEMO_VENDORS,
       permits: DEMO_PERMITS,
@@ -43,43 +42,65 @@ export default async function DeskPage() {
   return (
     <>
       <PageIntro kicker="Operator desk" title="Five agents. One field book.">
-        Work that used to live in a broker binder, a maintenance inbox, a city portal,
-        a weekly flyover, and a renewal spreadsheet — now a short run from this desk.
+        Open a card, keep the pre-filled sample, and run it. Every workflow returns a readable
+        result. Nothing leaves this preview.
       </PageIntro>
 
       <Panel className="mb-8 border-copper/40 bg-[#fff8f1]">
-        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
-          <div>
+        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+          <div className="space-y-3">
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-copper">
-              Guided product preview
+              Interview walkthrough
             </p>
-            <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-              Open each card, keep the pre-filled sample, and run it. Every workflow returns a
-              realistic result with an audit trail; all external side effects are safely simulated.
-            </p>
+            <ol className="list-decimal space-y-1 pl-5 text-sm leading-relaxed text-ink-soft">
+              <li>
+                <Link href="/feasibility" className="text-ink underline decoration-rule underline-offset-2">
+                  Site kit
+                </Link>
+                : keep the Austin parcel → Compile kit → Download demo PDF.
+              </li>
+              <li>
+                <Link href="/triage" className="text-ink underline decoration-rule underline-offset-2">
+                  Triage
+                </Link>
+                : tap Burst pipe → Triage ticket → read the simulated SMS drafts.
+              </li>
+              <li>
+                <Link href="/permits" className="text-ink underline decoration-rule underline-offset-2">
+                  Permit pulse
+                </Link>
+                : Run pulse → inspect the from/to status table.
+              </li>
+              <li>
+                <Link href="/drone" className="text-ink underline decoration-rule underline-offset-2">
+                  Drone
+                </Link>
+                : Fly the comparison → confirm look-ahead is held → Download progress PDF.
+              </li>
+              <li>
+                <Link href="/churn" className="text-ink underline decoration-rule underline-offset-2">
+                  Churn
+                </Link>
+                : Score portfolio → open a renewal draft. No email is sent.
+              </li>
+            </ol>
           </div>
-          <p className="font-mono text-[12px] text-sage">5 / 5 workflows available</p>
+          <div className="flex flex-col items-start gap-2 md:items-end">
+            <p className="font-mono text-[12px] text-sage">5 / 5 workflows ready</p>
+            <ResetDemoButton />
+          </div>
         </div>
       </Panel>
 
-      {desk.ok ? (
-        <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-5">
-          <Stat label="Parcels" value={desk.parcels.length} />
-          <Stat label="Vendors" value={desk.vendors.length} />
-          <Stat label="Permits" value={desk.permits.length} />
-          <Stat label="Leases" value={desk.tenants.length} />
-          <Stat label="API" value={desk.health.version ?? "ok"} tone="sage" />
-        </div>
-      ) : (
-        <Panel className="mb-8">
-          <p className="text-sm text-ink-soft">
-            API is quiet. Start it with <code className="font-mono text-ink">make api</code> and
-            refresh — the desk still works; live counts will appear.
-          </p>
-        </Panel>
-      )}
+      <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+        <Stat label="Parcels" value={desk.parcels.length} />
+        <Stat label="Vendors" value={desk.vendors.length} />
+        <Stat label="Permits" value={desk.permits.length} />
+        <Stat label="Leases" value={desk.tenants.length} />
+        <Stat label="Runtime" value={desk.health.version ?? "demo"} tone="sage" />
+      </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="mb-8 grid gap-4 md:grid-cols-2">
         {AGENTS.map((agent) => (
           <Link key={agent.href} href={agent.href} className="group block">
             <Panel className="h-full transition group-hover:border-ink">
@@ -94,10 +115,19 @@ export default async function DeskPage() {
               <p className="mt-1 text-sm leading-relaxed text-ink-soft">
                 <span className="text-ink">Now:</span> {agent.produces}
               </p>
+              <p className="mt-3 text-[12px] text-copper">
+                Sample: {agent.sample} · {agent.action}
+              </p>
             </Panel>
           </Link>
         ))}
       </div>
+
+      <SafetyNote>
+        This hosted preview does not send email or SMS, create PandaDoc signatures, write Airtable
+        or Notion records, or dispatch a real vendor. Feasibility PDFs are decision-support, not a
+        PE stamp, survey, or appraisal.
+      </SafetyNote>
     </>
   );
 }

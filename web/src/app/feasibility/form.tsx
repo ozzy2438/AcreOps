@@ -1,15 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ArtifactLink } from "@/components/artifact-link";
 import { api } from "@/lib/api";
+import { SAMPLE_FEASIBILITY } from "@/lib/samples";
 import type { AgentRun, Parcel } from "@/lib/types";
-import { ArtifactLink, Audit, Button, ErrorNote, Field, Input, Panel, Select, Stat, Table } from "@/components/ui";
+import { Audit, Button, ErrorNote, Field, Input, Panel, SafetyNote, Select, Stat, Table } from "@/components/ui";
 
 type Packet = {
   risk_tier: string;
   executive_summary: string;
   pdf_path?: string;
   pandadoc_document_id?: string;
+  pandadoc_status?: string;
+  ready_to_sign?: boolean;
   zoning: { zone_code: string; zone_name: string; jurisdiction: string; max_far: number };
   scenarios: {
     label: string;
@@ -37,10 +41,10 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
       ];
 
   const [parcelId, setParcelId] = useState(fallback[0].parcel_id);
-  const [use, setUse] = useState("multifamily");
-  const [price, setPrice] = useState("4500000");
-  const [signer, setSigner] = useState("Demo Counterparty");
-  const [email, setEmail] = useState("counterparty@invalid.example");
+  const [use, setUse] = useState(SAMPLE_FEASIBILITY.use);
+  const [price, setPrice] = useState(SAMPLE_FEASIBILITY.price);
+  const [signer, setSigner] = useState(SAMPLE_FEASIBILITY.signer);
+  const [email, setEmail] = useState(SAMPLE_FEASIBILITY.email);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<AgentRun<Packet> | null>(null);
@@ -49,6 +53,16 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
     () => fallback.find((p) => p.parcel_id === parcelId) ?? fallback[0],
     [fallback, parcelId],
   );
+
+  function restoreSample() {
+    setParcelId(fallback[0].parcel_id);
+    setUse(SAMPLE_FEASIBILITY.use);
+    setPrice(SAMPLE_FEASIBILITY.price);
+    setSigner(SAMPLE_FEASIBILITY.signer);
+    setEmail(SAMPLE_FEASIBILITY.email);
+    setError(null);
+    setRun(null);
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -80,6 +94,10 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
       <Panel>
         <form onSubmit={onSubmit} className="space-y-4">
+          <SafetyNote>
+            Sample parcels are pre-loaded. The PDF is decision-support only — not a PE stamp,
+            survey, or appraisal. PandaDoc stays a simulated draft.
+          </SafetyNote>
           <Field label="Parcel">
             <Select value={parcelId} onChange={(e) => setParcelId(e.target.value)}>
               {fallback.map((p) => (
@@ -89,7 +107,7 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
               ))}
             </Select>
           </Field>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Field label="Intended use">
               <Select value={use} onChange={(e) => setUse(e.target.value)}>
                 {"multifamily mixed_use office retail industrial".split(" ").map((v) => (
@@ -100,7 +118,7 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
               </Select>
             </Field>
             <Field label="Ask / land price">
-              <Input value={price} onChange={(e) => setPrice(e.target.value)} />
+              <Input value={price} onChange={(e) => setPrice(e.target.value)} inputMode="numeric" />
             </Field>
           </div>
           <Field label="Counterparty">
@@ -109,9 +127,14 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
           <Field label="Signer email">
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </Field>
-          <Button type="submit" pending={pending}>
-            Compile kit
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button type="submit" pending={pending}>
+              Compile kit
+            </Button>
+            <Button type="button" tone="ghost" onClick={restoreSample}>
+              Restore sample
+            </Button>
+          </div>
           <ErrorNote message={error} />
         </form>
       </Panel>
@@ -138,18 +161,20 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
               `$${Math.round(s.residual_land_value_usd).toLocaleString()}`,
             ])}
           />
+          <SafetyNote>
+            PandaDoc status is {run.result.pandadoc_status ?? "demo_draft"}. Nothing was sent for
+            signature and ready-to-sign stays {String(Boolean(run.result.ready_to_sign))}.
+          </SafetyNote>
           <div className="flex flex-wrap items-center gap-3">
-            <ArtifactLink href={run.result.pdf_path}>Open demo PDF</ArtifactLink>
-            <span className="text-[12px] text-ink-soft">
-              PandaDoc is a draft simulation; nothing was sent for signature.
-            </span>
+            <ArtifactLink href={run.result.pdf_path}>Download demo PDF</ArtifactLink>
           </div>
           <Audit events={run.audit} />
         </div>
       ) : (
         <Panel>
           <p className="text-sm text-ink-soft">
-            Pick a parcel. The agent walks zoning → comps → demographics → underwrite → packet.
+            Keep the Austin sample and compile. The agent walks zoning → comps → demographics →
+            underwrite → packet, then offers a downloadable demo PDF.
           </p>
         </Panel>
       )}

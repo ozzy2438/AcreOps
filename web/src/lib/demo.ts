@@ -312,6 +312,9 @@ export function handleDemo(path: string, method: string, body: Json = {}) {
   if (method === "POST" && path === "agents/permits") return permits(body);
   if (method === "POST" && path === "agents/drone") return drone();
   if (method === "POST" && path === "agents/churn") return churn(body);
+  if (method === "POST" && path === "demo/reset") {
+    return { ok: true, mode: "interactive_demo", restored: ["parcels", "vendors", "permits", "tenants"] };
+  }
   return null;
 }
 

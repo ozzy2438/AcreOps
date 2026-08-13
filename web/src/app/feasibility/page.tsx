@@ -21,7 +21,7 @@ export default async function FeasibilityPage() {
     <>
       <PageIntro kicker="01  ·  Site kit" title="Address in. Packet out.">
         Zoning envelope, sale comps, and a 1-mile demographic ring compile into a branded PDF
-        and a PandaDoc draft. Decision-support — not a PE stamp.
+        and a simulated PandaDoc draft. Decision-support — not a PE stamp, survey, or appraisal.
       </PageIntro>
       <FeasibilityForm parcels={parcels} />
     </>

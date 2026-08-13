@@ -19,8 +19,8 @@ export default async function PermitsPage() {
   return (
     <>
       <PageIntro kicker="03  ·  Pulse" title="Stop refreshing the portal.">
-        The robot hashes the status field, diffs it against last night, emails the PM, and writes a
-        Notion timeline row. City portals stay the system of record.
+        The robot hashes the status field and diffs it against last night. Email and Notion drafts
+        are prepared in-memory. City portals stay the system of record; nothing is written back.
       </PageIntro>
       <PermitPulse watched={permits} />
     </>

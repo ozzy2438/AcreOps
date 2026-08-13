@@ -3,6 +3,9 @@ import { demoPdf, handleDemo } from "@/lib/demo";
 
 const API = process.env.ACREOPS_API_URL;
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
   const { path } = await ctx.params;
   const joinedPath = path.join("/");
@@ -27,27 +30,40 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
         },
       });
     } catch {
-      // A preview must remain fully explorable if the optional Python service is unavailable.
+      // Hosted interview demos must remain fully explorable if FastAPI is absent.
     }
   }
 
   if (req.method === "GET" && joinedPath.startsWith("artifacts/")) {
-    return new NextResponse(demoPdf(joinedPath), {
+    const filename = joinedPath.split("/").at(-1) ?? "acreops-demo.pdf";
+    return new NextResponse(Buffer.from(demoPdf(joinedPath)), {
       headers: {
         "content-type": "application/pdf",
-        "content-disposition": `inline; filename="${joinedPath.split("/").at(-1)}"`,
+        "content-disposition": `inline; filename="${filename}"`,
+        "cache-control": "no-store",
         "x-acreops-runtime": "interactive-demo",
       },
     });
   }
 
-  const body = requestBody ? (JSON.parse(requestBody) as Record<string, unknown>) : {};
+  let body: Record<string, unknown> = {};
+  if (requestBody) {
+    try {
+      body = JSON.parse(requestBody) as Record<string, unknown>;
+    } catch {
+      return NextResponse.json({ detail: "Invalid JSON body" }, { status: 400 });
+    }
+  }
+
   const result = handleDemo(joinedPath, req.method, body);
   if (result === null) {
     return NextResponse.json({ detail: "Demo route not found" }, { status: 404 });
   }
   return NextResponse.json(result, {
-    headers: { "x-acreops-runtime": "interactive-demo" },
+    headers: {
+      "x-acreops-runtime": "interactive-demo",
+      "cache-control": "no-store",
+    },
   });
 }
 

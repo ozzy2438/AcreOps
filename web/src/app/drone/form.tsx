@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { ArtifactLink } from "@/components/artifact-link";
 import { api } from "@/lib/api";
 import type { AgentRun } from "@/lib/types";
-import { ArtifactLink, Audit, Button, ErrorNote, Panel, Pill, Stat, Table } from "@/components/ui";
+import { Audit, Button, ErrorNote, Panel, Pill, SafetyNote, Stat, Table } from "@/components/ui";
 
 type Element = {
   name: string;
@@ -37,8 +38,8 @@ type Report = {
 function bar(pct: number, tone: "planned" | "observed") {
   const color = tone === "planned" ? "bg-ink/25" : "bg-copper";
   return (
-    <div className="flex items-center gap-2">
-      <div className="h-1.5 w-24 bg-paper-2">
+    <div className="flex min-w-28 items-center gap-2">
+      <div className="h-1.5 w-20 bg-paper-2 sm:w-24">
         <div className={`h-1.5 ${color}`} style={{ width: `${Math.max(4, Math.min(100, pct))}%` }} />
       </div>
       <span className="font-mono text-[12px]">{pct.toFixed(0)}%</span>
@@ -50,6 +51,11 @@ export function DroneForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<AgentRun<Report> | null>(null);
+
+  function restoreSample() {
+    setError(null);
+    setRun(null);
+  }
 
   async function onRun() {
     setPending(true);
@@ -70,9 +76,18 @@ export function DroneForm() {
 
   return (
     <div className="space-y-6">
-      <Button onClick={onRun} pending={pending}>
-        Fly the comparison
-      </Button>
+      <SafetyNote>
+        Sample flight: East 6th Lofts. Observations are compared to a 4D BIM envelope. The
+        superintendent gate stays closed — the look-ahead is not updated.
+      </SafetyNote>
+      <div className="flex flex-wrap gap-2">
+        <Button onClick={onRun} pending={pending}>
+          Fly the comparison
+        </Button>
+        <Button tone="ghost" onClick={restoreSample}>
+          Restore sample
+        </Button>
+      </div>
       <ErrorNote message={error} />
 
       {run ? (
@@ -123,9 +138,12 @@ export function DroneForm() {
               ])}
             />
           </div>
+          <SafetyNote>
+            Superintendent validated: {String(run.result.superintendent_validated)}. Schedule
+            updated: {String(run.result.schedule_updated)}. No construction dates were written.
+          </SafetyNote>
           <div className="flex flex-wrap items-center gap-3">
-            <ArtifactLink href={run.result.pdf_path}>Open progress PDF</ArtifactLink>
-            <span className="text-[12px] text-ink-soft">The simulated look-ahead remains held.</span>
+            <ArtifactLink href={run.result.pdf_path}>Download progress PDF</ArtifactLink>
           </div>
           <Audit events={run.audit} />
         </>

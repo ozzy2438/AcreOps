@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { api } from "@/lib/api";
+import { DEMO_TENANTS } from "@/lib/demo";
 import type { AgentRun } from "@/lib/types";
-import { Audit, Button, ErrorNote, Field, Panel, Pill, Stat, Table } from "@/components/ui";
+import { Audit, Button, ErrorNote, Field, Panel, Pill, SafetyNote, Stat, Table } from "@/components/ui";
 
 type Prediction = {
   tenant_name: string;
@@ -22,6 +23,7 @@ type Offer = {
   body: string;
   tenant_id: string;
   incentive_value_usd: number;
+  email_sent?: boolean;
 };
 
 type Sweep = {
@@ -36,6 +38,14 @@ export function ChurnForm() {
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<AgentRun<Sweep> | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+
+  function restoreSample() {
+    setHorizon(90);
+    setFloor(0.35);
+    setError(null);
+    setRun(null);
+    setOpen(null);
+  }
 
   async function onRun() {
     setPending(true);
@@ -57,6 +67,21 @@ export function ChurnForm() {
 
   return (
     <div className="space-y-6">
+      <SafetyNote>
+        Anonymous sample leases only. Scores use operational drivers (maintenance, price, payment,
+        market) — not protected-class features. No resident email is sent.
+      </SafetyNote>
+
+      <Table
+        columns={["Resident", "Home", "Rent", "Lease end"]}
+        rows={DEMO_TENANTS.map((t) => [
+          t.tenant_name,
+          `${t.property_name} ${t.unit_id}`,
+          `$${t.monthly_rent.toLocaleString()}`,
+          t.lease_end,
+        ])}
+      />
+
       <Panel>
         <div className="grid gap-5 md:grid-cols-[1fr_1fr_auto] md:items-end">
           <Field label={`Horizon · ${horizon} days`}>
@@ -80,9 +105,14 @@ export function ChurnForm() {
               className="w-full accent-copper"
             />
           </Field>
-          <Button onClick={onRun} pending={pending}>
-            Score portfolio
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={onRun} pending={pending}>
+              Score portfolio
+            </Button>
+            <Button tone="ghost" onClick={restoreSample}>
+              Restore sample
+            </Button>
+          </div>
         </div>
         <ErrorNote message={error} />
       </Panel>
@@ -123,7 +153,7 @@ export function ChurnForm() {
                 <Panel key={offer.subject}>
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between text-left"
+                    className="flex w-full items-center justify-between gap-3 text-left"
                     onClick={() => setOpen(open === offer.subject ? null : offer.subject)}
                   >
                     <span className="text-sm font-medium">{offer.subject}</span>
@@ -143,7 +173,10 @@ export function ChurnForm() {
           </>
         ) : (
           <Panel>
-            <p className="text-sm text-ink-soft">No tenants above the floor in this window.</p>
+            <p className="text-sm text-ink-soft">
+              No tenants above the floor in this window. Lower the probability slider and score
+              again.
+            </p>
           </Panel>
         )
       ) : null}

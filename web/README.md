@@ -2,18 +2,28 @@
 
 Next.js 15 App Router workspace for the five AcreOps agents.
 
+**Hosted interview demo:** https://acreops-desk.vercel.app
+
 ```bash
-# from repo root, with the FastAPI service already running
-make ui
+# Demo-only (no FastAPI, same path as Vercel)
+make ui-demo
 # http://127.0.0.1:3000
+
+# Full stack, with the FastAPI service already running
+make ui
 ```
 
 The browser talks only to `/api/backend/*`. When `ACREOPS_API_URL` is configured,
 that route proxies to FastAPI so the backend origin never has to be public.
 
-## Interactive preview
+If the Python service is absent or unreachable, the same route (and a client-side
+fallback) switches to a deterministic, side-effect-free demo runtime. All five
+workflows remain usable, including sample feasibility and drone PDF artifacts.
 
-If `ACREOPS_API_URL` is absent, the same route switches to a deterministic,
-side-effect-free demo runtime. All five workflows remain usable in a hosted preview,
-including sample feasibility and drone PDF artifacts. The global demo banner makes it
-clear that no email, SMS, signature, permit, schedule, or tenant record is changed.
+**Reset demo** in the header restores the desk and sample forms. The global banner
+states that no email, SMS, PandaDoc, Airtable, Notion, or vendor dispatch happens.
+
+```bash
+cd web && npm run build && npm start
+npm run smoke    # hits all five workflows + both PDFs
+```
