@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,3 +21,33 @@ jobs:
         run: pytest --cov=acreops --cov-branch --cov-report=term-missing
       - name: Evals
         run: python evals/run_evals.py --gate --output artifacts/agent-eval.json
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install
+        run: npm install
+      - name: Build interactive preview
+        run: npm run build
+      - name: Start preview and smoke five workflows
+        run: |
+          npm start &
+          node scripts/smoke-demo.mjs
+
+  containers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API image
+        run: docker build -t acreops-api:ci .
+      - name: Build web image
+        run: docker build -t acreops-web:ci web
+      - name: Validate compose configuration
+        run: docker compose config

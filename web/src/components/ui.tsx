@@ -61,13 +61,21 @@ export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
 export function Button({
   children,
   pending,
+  tone = "primary",
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { pending?: boolean }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  pending?: boolean;
+  tone?: "primary" | "ghost";
+}) {
+  const look =
+    tone === "ghost"
+      ? "border border-rule bg-transparent px-4 py-2 text-sm text-ink hover:border-ink"
+      : "bg-ink px-4 py-2 text-sm text-paper hover:bg-copper";
   return (
     <button
       {...props}
       disabled={pending || props.disabled}
-      className={`inline-flex items-center justify-center bg-ink px-4 py-2 text-sm text-paper transition hover:bg-copper disabled:cursor-wait disabled:opacity-60 ${
+      className={`inline-flex items-center justify-center transition disabled:cursor-wait disabled:opacity-60 ${look} ${
         props.className ?? ""
       }`}
     >
@@ -117,8 +125,14 @@ export function Pill({ children, tone = "ink" }: { children: ReactNode; tone?: "
 export function ErrorNote({ message }: { message: string | null }) {
   if (!message) return null;
   return (
-    <p className="border border-clay/30 bg-[#f8ece9] px-3 py-2 text-sm text-clay">
-      {message}. Start the API with <code className="font-mono">make api</code>.
+    <p className="border border-clay/30 bg-[#f8ece9] px-3 py-2 text-sm text-clay">{message}</p>
+  );
+}
+
+export function SafetyNote({ children }: { children: ReactNode }) {
+  return (
+    <p className="border border-copper/20 bg-[#fff8f1] px-3 py-2 text-[12px] leading-relaxed text-ink-soft">
+      {children}
     </p>
   );
 }

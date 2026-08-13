@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { Shell } from "@/components/shell";
 import "./globals.css";
@@ -22,8 +22,16 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AcreOps",
-  description: "Real estate and construction agent desk",
+  title: "AcreOps · Interview demo",
+  description:
+    "Try five real-estate and construction agent workflows in a safe interactive demo. No real email, SMS, PandaDoc, Airtable, Notion, or vendor dispatch.",
+  robots: { index: false, follow: false },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f3eee4",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

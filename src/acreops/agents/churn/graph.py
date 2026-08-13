@@ -47,14 +47,18 @@ def node_score(state: ChurnState) -> dict[str, Any]:
     frame = feature_frame(leases, today)
     probs = booster.predict(frame[FEATURE_COLUMNS])
     importance = dict(
-        zip(FEATURE_COLUMNS, (float(x) for x in booster.feature_importance(importance_type="gain")))
+        zip(
+            FEATURE_COLUMNS,
+            (float(x) for x in booster.feature_importance(importance_type="gain")),
+            strict=True,
+        )
     )
     total = sum(importance.values()) or 1.0
     importance = {k: round(v / total, 3) for k, v in importance.items()}
 
     predictions: list[dict[str, Any]] = []
     by_id = {lease.tenant_id: lease for lease in leases}
-    for tenant_id, prob in zip(frame["tenant_id"], probs):
+    for tenant_id, prob in zip(frame["tenant_id"], probs, strict=True):
         lease = by_id[tenant_id]
         dte = days_to_expiry(lease.lease_end, today)
         if dte < 0 or dte > horizon:

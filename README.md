@@ -6,6 +6,42 @@ Five production-shaped agents that take work a broker, PM, superintendent, or le
 
 The operator desk is a Next.js App Router app. Demo mode runs locally with no API keys. Live adapters (PandaDoc, AppFolio, Airtable, Twilio, Selenium, Notion, SMTP) activate when the matching env vars are set.
 
+## Hosted interview demo
+
+**Live app:** https://guileless-sundae-926ac8.netlify.app
+
+Netlify hosts the Next.js static interview preview (demo backend runs in the browser; no API keys). Claim the Drop on your Netlify account to remove the temporary password and keep the URL. Root Directory for Git-connected rebuilds is `web/`; leave `ACREOPS_API_URL` unset.
+
+Until the site is claimed, run the same preview locally:
+
+```bash
+make ui-demo
+# http://127.0.0.1:3000
+```
+
+### Walkthrough
+
+1. **Site feasibility** — keep `1408 East 6th Street, Austin` → **Compile kit** → **Download demo PDF**.
+2. **Tenant triage** — tap **Burst pipe** → **Triage ticket**. Read the simulated SMS drafts; nothing is sent.
+3. **Permit pulse** — keep **Simulate a status change** checked → **Run pulse**. Inspect the from/to table.
+4. **Drone progress** — **Fly the comparison**. Confirm look-ahead is **held** → **Download progress PDF**.
+5. **Lease churn** — **Score portfolio** → open a renewal draft. No resident email is sent.
+
+Use **Reset demo** in the header at any time to return to the desk with sample forms restored.
+
+### What is simulated
+
+The copper banner is the contract: this preview does **not** send email or SMS, create a PandaDoc signature request, write Airtable or Notion records, scrape a live city portal, or dispatch a real vendor.
+
+### Known limitations
+
+- Hosted mode uses the in-app demo runtime, not the Python LangGraph service. Vendor pick, permit diffs, occupancy math, and churn scores are still deterministic code — they are not behind a prompt — but they are the preview fixtures rather than live GIS / UAV / LightGBM artifacts.
+- Feasibility and drone PDFs are short decision-support samples, not branded production packets, PE stamps, surveys, or appraisals.
+- The drone UI skips the LangGraph `interrupt()` prompt so a visitor is not blocked; `schedule_updated` stays `false`.
+- There is no login, multi-tenant ACL, or live municipal / MLS / ACS call.
+
+Redeploy from `web/` on Netlify (or Vercel). Leave `ACREOPS_API_URL` unset. Local equivalent: `make ui-demo`.
+
 ## The five agents
 
 | Agent | Manual today | AcreOps |

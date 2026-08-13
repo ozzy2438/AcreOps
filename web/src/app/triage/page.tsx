@@ -6,7 +6,8 @@ export default function TriagePage() {
     <>
       <PageIntro kicker="02  ·  Triage" title="Read the ticket. Dispatch the trade.">
         An AppFolio-shaped request hits a rule classifier — emergency, urgent, routine, or
-        tenant-responsibility — then the first eligible vendor on the bench. SMS goes both ways.
+        tenant-responsibility — then the first eligible vendor on the bench. SMS drafts stay on
+        screen; nothing is sent.
       </PageIntro>
       <TriageForm />
     </>

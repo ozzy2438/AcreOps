@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
-    "lint": "eslint"
+    "lint": "eslint",
+    "smoke": "node scripts/smoke-demo.mjs",
+    "export-static": "bash scripts/export-static.sh"
   },
   "dependencies": {
     "next": "^15.3.2",

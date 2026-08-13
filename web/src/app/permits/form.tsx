@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { api } from "@/lib/api";
 import type { AgentRun, Permit } from "@/lib/types";
-import { Audit, Button, ErrorNote, Panel, Pill, Table } from "@/components/ui";
+import { Audit, Button, ErrorNote, Panel, Pill, SafetyNote, Table } from "@/components/ui";
 
 type Change = {
   permit_number: string;
@@ -25,6 +25,12 @@ export function PermitPulse({ watched }: { watched: Permit[] }) {
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<AgentRun<Pulse> | null>(null);
 
+  function restoreSample() {
+    setForce(true);
+    setError(null);
+    setRun(null);
+  }
+
   async function onRun() {
     setPending(true);
     setError(null);
@@ -39,6 +45,11 @@ export function PermitPulse({ watched }: { watched: Permit[] }) {
 
   return (
     <div className="space-y-6">
+      <SafetyNote>
+        Four demo permits are already on the watch list. Status diffs are simulated. No city
+        portal is scraped, no email is sent, and no Notion timeline is updated.
+      </SafetyNote>
+
       {watched.length ? (
         <Table
           columns={["Permit", "Project", "Status", "Jurisdiction"]}
@@ -53,17 +64,20 @@ export function PermitPulse({ watched }: { watched: Permit[] }) {
         />
       ) : (
         <Panel>
-          <p className="text-sm text-ink-soft">No watched permits loaded. API may be offline.</p>
+          <p className="text-sm text-ink-soft">No watched permits loaded. Restore the sample set.</p>
         </Panel>
       )}
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-2 text-sm text-ink-soft">
           <input type="checkbox" checked={force} onChange={(e) => setForce(e.target.checked)} />
           Simulate a status change on this pass
         </label>
         <Button onClick={onRun} pending={pending}>
           Run pulse
+        </Button>
+        <Button tone="ghost" onClick={restoreSample}>
+          Restore sample
         </Button>
       </div>
       <ErrorNote message={error} />
@@ -80,12 +94,16 @@ export function PermitPulse({ watched }: { watched: Permit[] }) {
                 c.action_summary,
               ])}
             />
-            <p className="text-sm text-ink-soft">Emails queued. Notion timeline rows upserted.</p>
+            <SafetyNote>
+              Notification drafts were prepared only. SMTP and Notion were not called.
+            </SafetyNote>
             <Audit events={run.audit} />
           </div>
         ) : (
           <Panel>
-            <p className="text-sm text-ink-soft">Quiet night. No status changes this pass.</p>
+            <p className="text-sm text-ink-soft">
+              Quiet night. No status changes this pass — a successful no-op, not an empty error.
+            </p>
           </Panel>
         )
       ) : null}
