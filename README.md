@@ -8,9 +8,14 @@ The operator desk is a Next.js App Router app. Demo mode runs locally with no AP
 
 ## Hosted interview demo
 
-**Live app:** https://acreops-desk.vercel.app
+**Live app:** production HTTPS URL is published here after the Vercel deploy of `web/` (Root Directory = `web`, `ACREOPS_API_URL` unset).
 
-No install, no API keys. Open the link and use it like an operator. The hosted preview runs the Next.js field desk with a deterministic in-app demo backend (`ACREOPS_API_URL` is unset), so every button returns a result.
+Until that host is connected, run the same preview locally:
+
+```bash
+make ui-demo
+# http://127.0.0.1:3000
+```
 
 ### Walkthrough
 
