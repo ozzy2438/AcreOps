@@ -80,7 +80,9 @@ export function PermitPulse({ watched }: { watched: Permit[] }) {
                 c.action_summary,
               ])}
             />
-            <p className="text-sm text-ink-soft">Emails queued. Notion timeline rows upserted.</p>
+            <p className="text-sm text-ink-soft">
+              Demo notifications prepared. No email was sent and no Notion page was changed.
+            </p>
             <Audit events={run.audit} />
           </div>
         ) : (

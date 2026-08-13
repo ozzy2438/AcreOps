@@ -1,14 +1,16 @@
 import { FeasibilityForm } from "./form";
 import { PageIntro } from "@/components/ui";
 import type { Parcel } from "@/lib/types";
+import { DEMO_PARCELS } from "@/lib/demo";
 
-const API = process.env.ACREOPS_API_URL ?? "http://127.0.0.1:8000";
+const API = process.env.ACREOPS_API_URL;
 
 async function loadParcels(): Promise<Parcel[]> {
+  if (!API) return DEMO_PARCELS;
   try {
     return await fetch(`${API}/catalog/parcels`, { cache: "no-store" }).then((r) => r.json());
   } catch {
-    return [];
+    return DEMO_PARCELS;
   }
 }
 
