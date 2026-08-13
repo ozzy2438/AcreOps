@@ -2,7 +2,9 @@
 
 Next.js 15 App Router workspace for the five AcreOps agents.
 
-**Hosted interview demo:** Vercel Root Directory = `web` (`ACREOPS_API_URL` unset). Local equivalent below.
+**Hosted interview demo:** https://guileless-sundae-926ac8.netlify.app
+
+Netlify Root Directory = `web` (`ACREOPS_API_URL` unset). Local equivalent below.
 
 ```bash
 # Demo-only (no FastAPI, same path as Vercel)

@@ -11,7 +11,7 @@ if (process.env.ACREOPS_STATIC_EXPORT === "1") {
     nextConfig.basePath = basePath;
     nextConfig.assetPrefix = basePath;
   }
-} else if (!process.env.VERCEL) {
+} else if (!process.env.VERCEL && !process.env.NETLIFY) {
   nextConfig.output = "standalone";
 }
 

@@ -8,9 +8,11 @@ The operator desk is a Next.js App Router app. Demo mode runs locally with no AP
 
 ## Hosted interview demo
 
-**Live app:** production HTTPS URL is published here after the Vercel deploy of `web/` (Root Directory = `web`, `ACREOPS_API_URL` unset).
+**Live app:** https://guileless-sundae-926ac8.netlify.app
 
-Until that host is connected, run the same preview locally:
+Netlify hosts the Next.js static interview preview (demo backend runs in the browser; no API keys). Claim the Drop on your Netlify account to remove the temporary password and keep the URL. Root Directory for Git-connected rebuilds is `web/`; leave `ACREOPS_API_URL` unset.
+
+Until the site is claimed, run the same preview locally:
 
 ```bash
 make ui-demo
@@ -38,7 +40,7 @@ The copper banner is the contract: this preview does **not** send email or SMS, 
 - The drone UI skips the LangGraph `interrupt()` prompt so a visitor is not blocked; `schedule_updated` stays `false`.
 - There is no login, multi-tenant ACL, or live municipal / MLS / ACS call.
 
-Redeploy from `web/` on Vercel (Root Directory = `web`). Leave `ACREOPS_API_URL` unset. Local equivalent: `make ui-demo`.
+Redeploy from `web/` on Netlify (or Vercel). Leave `ACREOPS_API_URL` unset. Local equivalent: `make ui-demo`.
 
 ## The five agents
 
