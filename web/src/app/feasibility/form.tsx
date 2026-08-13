@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { api } from "@/lib/api";
 import type { AgentRun, Parcel } from "@/lib/types";
-import { Audit, Button, ErrorNote, Field, Input, Panel, Select, Stat, Table } from "@/components/ui";
+import { ArtifactLink, Audit, Button, ErrorNote, Field, Input, Panel, Select, Stat, Table } from "@/components/ui";
 
 type Packet = {
   risk_tier: string;
@@ -39,8 +39,8 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
   const [parcelId, setParcelId] = useState(fallback[0].parcel_id);
   const [use, setUse] = useState("multifamily");
   const [price, setPrice] = useState("4500000");
-  const [signer, setSigner] = useState("Jordan Hale");
-  const [email, setEmail] = useState("jordan.hale@lp.example");
+  const [signer, setSigner] = useState("Demo Counterparty");
+  const [email, setEmail] = useState("counterparty@invalid.example");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<AgentRun<Packet> | null>(null);
@@ -138,7 +138,12 @@ export function FeasibilityForm({ parcels }: { parcels: Parcel[] }) {
               `$${Math.round(s.residual_land_value_usd).toLocaleString()}`,
             ])}
           />
-          <p className="font-mono text-[11px] text-ink-soft">{run.result.pdf_path}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <ArtifactLink href={run.result.pdf_path}>Open demo PDF</ArtifactLink>
+            <span className="text-[12px] text-ink-soft">
+              PandaDoc is a draft simulation; nothing was sent for signature.
+            </span>
+          </div>
           <Audit events={run.audit} />
         </div>
       ) : (

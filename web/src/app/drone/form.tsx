@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { api } from "@/lib/api";
 import type { AgentRun } from "@/lib/types";
-import { Audit, Button, ErrorNote, Panel, Pill, Stat, Table } from "@/components/ui";
+import { ArtifactLink, Audit, Button, ErrorNote, Panel, Pill, Stat, Table } from "@/components/ui";
 
 type Element = {
   name: string;
@@ -123,7 +123,10 @@ export function DroneForm() {
               ])}
             />
           </div>
-          <p className="font-mono text-[11px] text-ink-soft">{run.result.pdf_path}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <ArtifactLink href={run.result.pdf_path}>Open progress PDF</ArtifactLink>
+            <span className="text-[12px] text-ink-soft">The simulated look-ahead remains held.</span>
+          </div>
           <Audit events={run.audit} />
         </>
       ) : (

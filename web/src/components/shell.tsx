@@ -29,6 +29,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
       </header>
+      <div className="border-b border-copper/25 bg-[#f4dfcf]">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-5 py-2 text-[12px] text-copper-deep">
+          <span className="inline-flex rounded-full bg-copper px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-white">
+            Interactive demo
+          </span>
+          <span>No real SMS, email, signature, permit, schedule, or tenant record is changed.</span>
+        </div>
+      </div>
       <main className="mx-auto max-w-6xl px-5 py-8">{children}</main>
     </div>
   );

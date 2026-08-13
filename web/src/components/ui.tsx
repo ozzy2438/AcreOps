@@ -123,6 +123,24 @@ export function ErrorNote({ message }: { message: string | null }) {
   );
 }
 
+export function ArtifactLink({ href, children }: { href?: string; children: ReactNode }) {
+  if (!href) return null;
+  const target = href.startsWith("/") ? `/api/backend${href}` : null;
+  if (!target) {
+    return <p className="font-mono text-[11px] text-ink-soft">Artifact: {href}</p>;
+  }
+  return (
+    <a
+      href={target}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex border border-ink px-3 py-2 text-sm text-ink transition hover:bg-ink hover:text-paper"
+    >
+      {children} ↗
+    </a>
+  );
+}
+
 export function Audit({ events }: { events: { action: string; timestamp?: string }[] }) {
   if (!events.length) return null;
   return (
