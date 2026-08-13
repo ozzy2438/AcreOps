@@ -22,8 +22,8 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AcreOps",
-  description: "Real estate and construction agent desk",
+  title: "AcreOps · Interactive Product Demo",
+  description: "Try five real-estate and construction agent workflows in a safe interactive demo.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

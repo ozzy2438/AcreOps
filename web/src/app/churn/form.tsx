@@ -45,7 +45,7 @@ export function ChurnForm() {
         await api.post<AgentRun<Sweep>>("/agents/churn", {
           horizon_days: horizon,
           min_probability: floor,
-          send_email: true,
+          send_email: false,
         }),
       );
     } catch (err) {
@@ -116,6 +116,9 @@ export function ChurnForm() {
               ])}
             />
             <div className="space-y-2">
+              <p className="text-sm text-ink-soft">
+                Drafts are held for manager review. No resident email was sent.
+              </p>
               {run.result.offers.map((offer) => (
                 <Panel key={offer.subject}>
                   <button
