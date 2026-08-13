@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageIntro, Panel, SafetyNote, Stat } from "@/components/ui";
 import { ResetDemoButton } from "@/components/reset-demo";
+import { WalkthroughFan } from "@/components/walkthrough";
 import { AGENTS } from "@/lib/agents";
 import { DEMO_PARCELS, DEMO_PERMITS, DEMO_TENANTS, DEMO_VENDORS } from "@/lib/demo";
 
@@ -52,38 +53,7 @@ export default async function DeskPage() {
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-copper">
               Interview walkthrough
             </p>
-            <ol className="list-decimal space-y-1 pl-5 text-sm leading-relaxed text-ink-soft">
-              <li>
-                <Link href="/feasibility" className="text-ink underline decoration-rule underline-offset-2">
-                  Site kit
-                </Link>
-                : keep the Austin parcel → Compile kit → Download demo PDF.
-              </li>
-              <li>
-                <Link href="/triage" className="text-ink underline decoration-rule underline-offset-2">
-                  Triage
-                </Link>
-                : tap Burst pipe → Triage ticket → read the simulated SMS drafts.
-              </li>
-              <li>
-                <Link href="/permits" className="text-ink underline decoration-rule underline-offset-2">
-                  Permit pulse
-                </Link>
-                : Run pulse → inspect the from/to status table.
-              </li>
-              <li>
-                <Link href="/drone" className="text-ink underline decoration-rule underline-offset-2">
-                  Drone
-                </Link>
-                : Fly the comparison → confirm look-ahead is held → Download progress PDF.
-              </li>
-              <li>
-                <Link href="/churn" className="text-ink underline decoration-rule underline-offset-2">
-                  Churn
-                </Link>
-                : Score portfolio → open a renewal draft. No email is sent.
-              </li>
-            </ol>
+            <WalkthroughFan />
           </div>
           <div className="flex flex-col items-start gap-2 md:items-end">
             <p className="font-mono text-[12px] text-sage">5 / 5 workflows ready</p>

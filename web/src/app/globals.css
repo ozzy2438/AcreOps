@@ -46,3 +46,68 @@ textarea,
 button {
   font: inherit;
 }
+
+@keyframes acreops-fan-in {
+  from {
+    opacity: 0;
+    transform: rotateX(-80deg) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0) translateY(0);
+  }
+}
+
+.walkthrough-fan {
+  perspective: 900px;
+  transform-style: preserve-3d;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.walkthrough-fan__leaf {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgb(255 255 255 / 0.72);
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 1px 0 rgb(18 36 58 / 0.04);
+  transform-origin: top center;
+  backface-visibility: hidden;
+  animation: acreops-fan-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
+  transition: transform 180ms ease;
+}
+
+.walkthrough-fan__leaf:hover {
+  transform: rotateX(0) translateY(0) translateZ(6px);
+}
+
+.walkthrough-fan__index {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--color-copper);
+  padding-top: 1px;
+}
+
+.walkthrough-fan__copy {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walkthrough-fan__leaf {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
